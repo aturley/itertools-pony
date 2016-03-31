@@ -83,5 +83,4 @@ iterator.
 
 ## TODO
 
-* Add tests
 * Add other classes for dealing with iterators
