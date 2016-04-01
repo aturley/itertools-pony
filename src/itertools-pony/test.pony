@@ -48,8 +48,9 @@ class iso _TestZip is UnitTest
     let actual4 = Array[I32]
     let actual5 = Array[USize]
 
-    for (a1, a2, a3, a4, a5)
-      in Zip5[String, U32, F32, I32, USize](input1.values(), input2.values(), input3.values(), input4.values(), input5.values()) do
+    for (a1, a2, a3, a4, a5) in
+      Zip5[String, U32, F32, I32, USize](input1.values(), input2.values(),
+      input3.values(), input4.values(), input5.values()) do
       actual1.push(a1)
       actual2.push(a2)
       actual3.push(a3)
@@ -59,7 +60,8 @@ class iso _TestZip is UnitTest
 
     h.assert_array_eq[String](expected1, actual1)
 
-    // Skipping for now because of issue 563 (https://github.com/ponylang/ponyc/issues/563)
+    // Skipping for now because of issue 563
+    // (https://github.com/ponylang/ponyc/issues/563)
     // h.assert_array_eq[U32](expected2, actual2)
     // h.assert_array_eq[F32](expected3, actual3)
     // h.assert_array_eq[I32](expected4, actual4)

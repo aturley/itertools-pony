@@ -1,6 +1,20 @@
 """
+# Itertools Package
+
 Provide a set of classes for doing useful things with
 iterators. Inspired by Python's itertools library.
+
+Chain -- chain together two iterators
+
+Limit -- return only the specified number of itmes from the given
+iterator
+
+Zip2, Zip3, Zip4, Zip5 -- zip together N iterators
+
+Repeat -- create an iterator that reapeatedly returns the given value
+
+Cycle -- create an iterator that infinitley loops over the items of
+the given iterator
 """
 
 class Chain[A] is Iterator[A]
@@ -80,7 +94,9 @@ iterators.
   let _i3: Iterator[C] ref
   let _i4: Iterator[D] ref
 
-  new create(i1: Iterator[A] ref, i2: Iterator[B] ref, i3: Iterator[C], i4: Iterator[D]) =>
+  new create(i1: Iterator[A] ref, i2: Iterator[B] ref, i3: Iterator[C],
+    i4: Iterator[D])
+  =>
     _i1 = i1
     _i2 = i2
     _i3 = i3
@@ -105,7 +121,9 @@ iterators.
   let _i4: Iterator[D] ref
   let _i5: Iterator[E] ref
 
-  new create(i1: Iterator[A] ref, i2: Iterator[B] ref, i3: Iterator[C], i4: Iterator[D], i5: Iterator[E]) =>
+  new create(i1: Iterator[A] ref, i2: Iterator[B] ref, i3: Iterator[C],
+    i4: Iterator[D], i5: Iterator[E])
+  =>
     _i1 = i1
     _i2 = i2
     _i3 = i3
@@ -113,12 +131,16 @@ iterators.
     _i5 = i5
 
   fun ref has_next(): Bool =>
-    _i1.has_next() and _i2.has_next() and _i3.has_next() and _i4.has_next() and _i5.has_next()
+    _i1.has_next() and _i2.has_next() and _i3.has_next() and _i4.has_next() and
+      _i5.has_next()
 
   fun ref next(): (A, B, C, D, E) ? =>
     (_i1.next(), _i2.next(), _i3.next(), _i4.next(), _i5.next())
 
 class Repeat[A] is Iterator[A]
+"""
+Create an iterator that returns the specified value forever.
+"""
   let _v: A
 
   new create(v: A) =>
@@ -160,14 +182,17 @@ the input iterator should be finite.
   let _store: Array[A!]
   var _iter: Iterator[A!]
   var _first_time_through: Bool = false
+
   new create(iter: Iterator[A!]) =>
     _store = Array[A!]
     for v in iter do
       _store.push(v)
     end
     _iter = _store.values()
+
   fun ref has_next(): Bool =>
     true
+
   fun ref next(): A! ? =>
     if _iter.has_next() then
       if _first_time_through then
