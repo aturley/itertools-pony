@@ -15,12 +15,12 @@ Chain together two iterators.
     let i2 = [as I32: 5, 6, 7, 8, 9]
     let i3 = [as I32: 10, 11, 12, 13, 14]
 
-    for x in Chain[I32](i1.values(), Chain[I32](i2.values(), i3.values())) do
+    for x in Chain[I32]([i1.values(), i2.values(), i3.values()].values())
       env.out.print(x.string())
     end
 ```
 
-### Limit
+### Take
 
 Return only the specified number of items from the given iterator.
 
@@ -29,7 +29,7 @@ Return only the specified number of items from the given iterator.
 
     let i3 = [as I32: 10, 11, 12, 13, 14]
     
-    for x in Limit[I32](i3.values(), 3) do
+    for x in Take[I32](i3.values(), 3) do
       env.out.print(x.string())
     end
 ```

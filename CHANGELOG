@@ -1,6 +1,16 @@
 # Changelog
 
-## [0.0.1]
+## [Unreleased]
+### Changed
+- Limit is now Take
+- Chain is created with an iterator of iterators
+- Cycle has slightly improved API types, slightly better implementation
+
+### Added
+### Fixed
+- Get rid of the double storage in Cycle
+
+## [0.0.1] - 2016-04-05
 ### Added
 - Initial version
 - support for Chain, Limit, ZipN, Repeat, and Cycle

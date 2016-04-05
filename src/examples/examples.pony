@@ -9,11 +9,11 @@ actor Main
     var i5: Array[String] ref = ["a", "b", "q", "f"]
     var i6: Array[F32] ref = [as F32: 4.2, 5.7, 6.1]
 
-    for x in Chain[I32](i1.values(), Chain[I32](i2.values(), i3.values())) do
+    for x in Chain[I32]([i1.values(), i2.values(), i3.values()].values()) do
       env.out.print(x.string())
     end
 
-    for x in Limit[I32](i3.values(), 3) do
+    for x in Take[I32](i3.values(), 3) do
       env.out.print(x.string())
     end
 
@@ -25,10 +25,10 @@ actor Main
       env.out.print("".add(x.string()).add(" ").add(y).add(" ").add(z.string()))
     end
 
-    for x in Limit[U32](Repeat[U32](7), 5) do
+    for x in Take[U32](Repeat[U32](7), 5) do
       env.out.print(x.string())
     end
 
-    for x in Limit[I32](Cycle[I32](i1.values()), 15) do
+    for x in Take[I32](Cycle[I32](i1.values()), 15) do
       env.out.print(x.string())
     end
