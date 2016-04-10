@@ -8,23 +8,63 @@ actor Main is TestList
     test(_TestChain)
     test(_TestZip)
     test(_TestRepeat)
-    test(_TestLimit)
+    test(_TestTake)
     test(_TestCycle)
 
 class iso _TestChain is UnitTest
   fun name(): String => "Itertools: Chain"
 
   fun apply(h: TestHelper) =>
+    None
+    let input0: Array[String] = Array[String]
     let input1 = ["a", "b", "c"]
     let input2 = ["d", "e", "f"]
     let expected = ["a", "b", "c", "d", "e", "f"]
     var actual = Array[String]
 
-    for x in Chain[String](input1.values(), input2.values()) do
+    for x in Chain[String]([input1.values(), input2.values()].values()) do
       actual.push(x)
     end
 
     h.assert_array_eq[String](expected, actual)
+    actual.clear()
+
+    for x in Chain[String]([input0.values(), input1.values(), input2.values()].
+      values()) do
+      actual.push(x)
+    end
+
+    h.assert_array_eq[String](expected, actual)
+    actual.clear()
+
+    for x in Chain[String]([input1.values(), input2.values(), input0.values()].
+      values()) do
+      actual.push(x)
+    end
+  
+    h.assert_array_eq[String](expected, actual)
+    actual.clear()
+
+    for x in Chain[String]([input0.values()].values()) do
+      actual.push(x)
+    end
+  
+    h.assert_array_eq[String](input0, actual)
+    actual.clear()
+
+    for x in Chain[String]([input0.values(), input0.values()].values()) do
+      actual.push(x)
+    end
+  
+    h.assert_array_eq[String](input0, actual)
+    actual.clear()
+
+    for x in Chain[String](Array[Iterator[String]].values()) do
+      actual.push(x)
+    end
+  
+    h.assert_array_eq[String](input0, actual)
+    actual.clear()
 
 class iso _TestZip is UnitTest
   fun name(): String => "Itertools: Zip"
@@ -83,16 +123,16 @@ class iso _TestRepeat is UnitTest
 
     h.assert_array_eq[String](expected, actual)
 
-class iso _TestLimit is UnitTest
-  fun name(): String => "Itertools: Limit"
+class iso _TestTake is UnitTest
+  fun name(): String => "Itertools: Take"
 
   fun apply(h: TestHelper) =>
-    let limitation: USize = 3
+    let take: USize = 3
     let input = ["a", "b", "c", "d", "e"]
     let expected = ["a", "b", "c"]
     var actual = Array[String]
 
-    for x in Limit[String](input.values(), 3) do
+    for x in Take[String](input.values(), take) do
       actual.push(x)
     end
 
@@ -103,7 +143,7 @@ class iso _TestCycle is UnitTest
 
   fun apply(h: TestHelper) =>
     let input = ["a", "b", "c"]
-    let expected = ["a", "b", "c", "a", "b"]
+    let expected = ["a", "b", "c", "a", "b", "c", "a", "b", "c", "a"]
     var actual: Array[String] = Array[String]
 
     let cycle = Cycle[String](input.values())
@@ -111,8 +151,13 @@ class iso _TestCycle is UnitTest
       actual.push(cycle.next()) // 1 "a"
       actual.push(cycle.next()) // 2 "b"
       actual.push(cycle.next()) // 3 "c"
-      actual.push(cycle.next()) // 4 "a"
+      actual.push(cycle.next()) // 4 "a" <= start first cached cycle
       actual.push(cycle.next()) // 5 "b"
+      actual.push(cycle.next()) // 6 "c"
+      actual.push(cycle.next()) // 7 "a" <= start second cached cycle
+      actual.push(cycle.next()) // 8 "b"
+      actual.push(cycle.next()) // 9 "c"
+      actual.push(cycle.next()) // 10 "a" <= start third cached cycle
     else
       h.fail()
     end
