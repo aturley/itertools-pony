@@ -1,4 +1,4 @@
-class Chain[A] is Iterator[A!]
+class Chain[A] is Iterator[A]
   """
   Take an iterator of iterators and work through them, returning the
   items of the first one, then the second one, and so on.
@@ -21,26 +21,43 @@ class Chain[A] is Iterator[A!]
       end
   ```
   """
-  let _outer_iterator: Iterator[Iterator[A!]]
-  var _inner_iterator: Iterator[A!]
+  let _outer_iterator: Iterator[Iterator[A]]
+  var _inner_iterator: (Iterator[A] | None) = None
 
-  new create(outer_iterator: Iterator[Iterator[A!]]) =>
+  new create(outer_iterator: Iterator[Iterator[A]]) =>
     _outer_iterator = outer_iterator
-    _inner_iterator = Array[A!]().values()
 
-    try
-      _inner_iterator = outer_iterator.next()
-      while _outer_iterator.has_next() and (not _inner_iterator.has_next()) do
-        _inner_iterator = _outer_iterator.next()
+  fun ref has_next(): Bool =>
+    if _inner_iterator isnt None then
+      try
+        let iter = _inner_iterator as Iterator[A]
+        if iter.has_next() then
+          return true
+        end
       end
     end
 
-  fun ref has_next(): Bool =>
-    _outer_iterator.has_next() or _inner_iterator.has_next()
-
-  fun ref next(): A! ? =>
-    let out: A! = _inner_iterator.next()
-    while (not _inner_iterator.has_next()) and _outer_iterator.has_next() do
-      _inner_iterator = _outer_iterator.next()
+    if _outer_iterator.has_next() then
+      try
+        _inner_iterator = _outer_iterator.next()
+        return has_next()
+      end
     end
-    out
+
+    false
+
+  fun ref next(): A ? =>
+    if _inner_iterator isnt None then
+      let iter = _inner_iterator as Iterator[A]
+
+      if iter.has_next() then
+        return iter.next()
+      end
+    end
+
+    if _outer_iterator.has_next() then
+      _inner_iterator = _outer_iterator.next()
+      return next()
+    end
+
+    error

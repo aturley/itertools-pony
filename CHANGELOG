@@ -4,6 +4,7 @@
 ### Changed
 ### Added
 ### Fixed
+- Reimplement Chain so that next() returns A instead of A!
 
 ## [0.0.2] - 2016-04-10
 ### Changed

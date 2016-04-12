@@ -66,6 +66,19 @@ class iso _TestChain is UnitTest
     h.assert_array_eq[String](input0, actual)
     actual.clear()
 
+    h.assert_false(Chain[String](Array[Iterator[String]].values()).has_next())
+
+    let chain = Chain[String]([input0.values(), input1.values(), input0.values()].values())
+    h.assert_true(chain.has_next())
+    try
+      chain.next()
+      chain.next()
+      chain.next()
+      h.assert_false(chain.has_next())
+    else
+      h.fail()
+    end
+
 class iso _TestZip is UnitTest
   fun name(): String => "Itertools: Zip"
 
