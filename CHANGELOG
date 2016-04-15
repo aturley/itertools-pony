@@ -3,6 +3,8 @@
 ## [Unreleased]
 ### Changed
 ### Added
+- MapFn
+
 ### Fixed
 - Reimplement Chain so that next() returns A instead of A!
 
