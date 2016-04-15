@@ -81,6 +81,23 @@ iterator.
     end
 ```
 
+### MapFn
+
+Create an iterator that applies a function to an input iterator.
+
+```pony
+    // double the input values
+
+    let i1 = [as I32: 1, 2, 3, 4]
+    
+    for x in MapFn[I32, I32](i1.values(),
+                             lambda(x: I32): I32 =>
+                             x * 2 end) do
+      env.out.print(x.string())
+    end
+```
+
+
 ## TODO
 
 * Add other classes for dealing with iterators

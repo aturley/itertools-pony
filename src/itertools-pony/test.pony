@@ -10,6 +10,7 @@ actor Main is TestList
     test(_TestRepeat)
     test(_TestTake)
     test(_TestCycle)
+    test(_TestMapFn)
 
 class iso _TestChain is UnitTest
   fun name(): String => "Itertools: Chain"
@@ -176,3 +177,19 @@ class iso _TestCycle is UnitTest
     end
     
     h.assert_array_eq[String](expected, actual)
+
+class iso _TestMapFn is UnitTest
+  fun name(): String => "Itertools: MapFn"
+
+  fun apply(h: TestHelper) =>
+    let input = ["a", "b", "c"]
+    let expected = ["ab", "bb", "cb"]
+    let actual = Array[String]
+
+    for x in MapFn[String, String](input.values(),
+                                   lambda (x: String): String =>
+                                   x + "b" end) do
+      actual.push(x)
+    end
+
+    h.assert_array_eq[String](actual, expected)
