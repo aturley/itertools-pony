@@ -4,6 +4,7 @@
 ### Changed
 ### Added
 - MapFn
+- Filter
 
 ### Fixed
 - Reimplement Chain so that next() returns A instead of A!

@@ -15,4 +15,10 @@ Repeat -- create an iterator that reapeatedly returns the given value
 
 Cycle -- create an iterator that infinitley loops over the items of
 the given iterator
+
+MapFn -- create an iterator that applies a function to the value of
+the given iterator
+
+Filter -- create an iterator that only returns items that match a
+predicate
 """

@@ -97,6 +97,22 @@ Create an iterator that applies a function to an input iterator.
     end
 ```
 
+### Filter
+
+Create an iterator that applies a predicate function to an given
+iterator and only returns items that match the predicate.
+
+```pony
+    // only print even numbers
+
+    let i1 = [as I32: 1, 2, 3, 4]
+    
+    for x in Filter[I32](i1.values(),
+                         lambda(x: I32): Bool =>
+                         x % 2 == 0 end) do
+      env.out.print(x.string())
+    end
+```
 
 ## TODO
 

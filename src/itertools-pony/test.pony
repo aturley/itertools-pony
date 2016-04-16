@@ -11,6 +11,7 @@ actor Main is TestList
     test(_TestTake)
     test(_TestCycle)
     test(_TestMapFn)
+    test(_TestFilter)
 
 class iso _TestChain is UnitTest
   fun name(): String => "Itertools: Chain"
@@ -189,6 +190,22 @@ class iso _TestMapFn is UnitTest
     for x in MapFn[String, String](input.values(),
                                    lambda (x: String): String =>
                                    x + "b" end) do
+      actual.push(x)
+    end
+
+    h.assert_array_eq[String](actual, expected)
+
+class iso _TestFilter is UnitTest
+  fun name(): String => "Itertools: Filter"
+
+  fun apply(h: TestHelper) =>
+    let input = ["ax", "bxx", "c", "dx", "exx", "f", "g", "hx"]
+    let expected = ["c", "f", "g"]
+    let actual = Array[String]
+
+    for x in Filter[String](input.values(),
+                            lambda (x: String): Bool =>
+                            x.size() == 1 end) do
       actual.push(x)
     end
 
