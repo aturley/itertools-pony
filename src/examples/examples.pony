@@ -1,4 +1,5 @@
 use "../itertools-pony"
+use "collections"
 
 actor Main
   new create(env: Env) =>
@@ -30,5 +31,9 @@ actor Main
     end
 
     for x in Take[I32](Cycle[I32](i1.values()), 15) do
+      env.out.print(x.string())
+    end
+
+    for x in Skip[U64](Range[U64](0, 100), 3) do
       env.out.print(x.string())
     end
