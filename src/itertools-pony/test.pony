@@ -14,7 +14,7 @@ actor Main is TestList
     test(_TestFilter)
 
 class iso _TestChain is UnitTest
-  fun name(): String => "Itertools: Chain"
+  fun name(): String => "itertools/Chain"
 
   fun apply(h: TestHelper) =>
     None
@@ -82,7 +82,7 @@ class iso _TestChain is UnitTest
     end
 
 class iso _TestZip is UnitTest
-  fun name(): String => "Itertools: Zip"
+  fun name(): String => "itertools/Zip"
 
   fun apply(h: TestHelper) =>
     let input1 = ["a", "b", "c"]
@@ -123,7 +123,7 @@ class iso _TestZip is UnitTest
     // h.assert_array_eq[USize](expected5, actual5)
 
 class iso _TestRepeat is UnitTest
-  fun name(): String => "Itertools: Chain"
+  fun name(): String => "itertools/Repeat"
 
   fun apply(h: TestHelper) =>
     let input = "a"
@@ -139,7 +139,7 @@ class iso _TestRepeat is UnitTest
     h.assert_array_eq[String](expected, actual)
 
 class iso _TestTake is UnitTest
-  fun name(): String => "Itertools: Take"
+  fun name(): String => "itertools/Take"
 
   fun apply(h: TestHelper) =>
     let take: USize = 3
@@ -154,7 +154,7 @@ class iso _TestTake is UnitTest
     h.assert_array_eq[String](expected, actual)
 
 class iso _TestCycle is UnitTest
-  fun name(): String => "Itertools: Cycle"
+  fun name(): String => "itertools/Cycle"
 
   fun apply(h: TestHelper) =>
     let input = ["a", "b", "c"]
@@ -180,7 +180,7 @@ class iso _TestCycle is UnitTest
     h.assert_array_eq[String](expected, actual)
 
 class iso _TestMapFn is UnitTest
-  fun name(): String => "Itertools: MapFn"
+  fun name(): String => "itertools/MapFn"
 
   fun apply(h: TestHelper) =>
     let input = ["a", "b", "c"]
@@ -196,14 +196,34 @@ class iso _TestMapFn is UnitTest
     h.assert_array_eq[String](actual, expected)
 
 class iso _TestFilter is UnitTest
-  fun name(): String => "Itertools: Filter"
+  fun name(): String => "itertools/Filter"
 
   fun apply(h: TestHelper) =>
-    let input = ["ax", "bxx", "c", "dx", "exx", "f", "g", "hx"]
+    let input1 = ["ax", "bxx", "c", "dx", "exx", "f", "g", "hx"]
+    let input2 = ["ax", "bxx", "c", "dx", "exx", "f", "g"]
+    let input3 = ["c", "dx", "exx", "f", "g"]
     let expected = ["c", "f", "g"]
     let actual = Array[String]
 
-    for x in Filter[String](input.values(),
+    for x in Filter[String](input1.values(),
+                            lambda (x: String): Bool =>
+                            x.size() == 1 end) do
+      actual.push(x)
+    end
+
+    h.assert_array_eq[String](actual, expected)
+    actual.clear()
+
+    for x in Filter[String](input2.values(),
+                            lambda (x: String): Bool =>
+                            x.size() == 1 end) do
+      actual.push(x)
+    end
+
+    h.assert_array_eq[String](actual, expected)
+    actual.clear()
+
+    for x in Filter[String](input3.values(),
                             lambda (x: String): Bool =>
                             x.size() == 1 end) do
       actual.push(x)
