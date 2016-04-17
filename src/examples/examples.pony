@@ -1,6 +1,21 @@
 use "../itertools-pony"
 use "collections"
 
+primitive FizzBuzz
+  fun from(range: Range[USize]): Iterator[String] =>
+    MapFn[(USize, String, String), String](
+      Zip3[USize, String, String](
+        range,
+        Cycle[String](["", "", "Fizz"].values()),
+        Cycle[String](["", "", "", "", "Buzz"].values())),
+        lambda(x: (USize, String, String)): String =>
+          match x
+          | (_, "", "") => x._1.string()
+          else
+            x._2 + x._3
+          end
+        end)
+
 actor Main
   new create(env: Env) =>
     let i1 = [as I32: 1, 2, 3, 4]
@@ -36,4 +51,8 @@ actor Main
 
     for x in Skip[U64](Range[U64](0, 100), 3) do
       env.out.print(x.string())
+    end
+
+    for x in FizzBuzz.from(Range(1, 101)) do
+      env.out.print(x)
     end
