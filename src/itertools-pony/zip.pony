@@ -28,12 +28,12 @@ class Zip2[A, B] is Iterator[(A, B)]
       end
   ```
   """
-  let _i1: Iterator[A]
-  let _i2: Iterator[B]
+  let _i1: Iterator[A] ref
+  let _i2: Iterator[B] ref
 
-  new create(i1: Iterator[A], i2: Iterator[B]) =>
-    _i1 = i1
-    _i2 = i2
+  new create(i1: Iterator[A] ref, i2: Iterator[B] ref) =>
+    _i1 = consume i1
+    _i2 = consume i2
 
   fun ref has_next(): Bool =>
     _i1.has_next() and _i2.has_next()
