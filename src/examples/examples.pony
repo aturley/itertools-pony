@@ -8,13 +8,13 @@ primitive FizzBuzz
         range,
         Cycle[String](["", "", "Fizz"].values()),
         Cycle[String](["", "", "", "", "Buzz"].values())),
-        lambda(x: (USize, String, String)): String =>
-          match x
-          | (_, "", "") => x._1.string()
-          else
-            x._2 + x._3
-          end
-        end)
+      lambda(x: (USize, String, String)): String =>
+        match x
+        | (_, "", "") => x._1.string()
+        else
+          x._2 + x._3
+        end
+      end)
 
 actor Main
   new create(env: Env) =>
