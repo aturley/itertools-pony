@@ -1,7 +1,6 @@
 # Changelog
 
-## [Unreleased]
-### Changed
+## [0.0.3] - 2016-04-17
 ### Added
 - MapFn
 - Filter
